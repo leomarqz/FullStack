@@ -1,9 +1,62 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Inicio - TechNotes</PageTitle>
 
-<h1 class="text-3xl font-bold underline text-blue-800">Hello, world!</h1>
+<div class="container-fluid px-4 py-5 mt-4 text-center">
+    <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-4 p-4 mb-4 shadow-sm" style="width: 80px; height: 80px;">
+        <i class="bi bi-journal-bookmark-fill display-5"></i>
+    </div>
+    
+    <h1 class="display-4 fw-bold text-dark mb-3">Bienvenido a <span class="text-primary">TechNotes</span></h1>
+    
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-5 text-secondary">
+            La plataforma definitiva para organizar tus ideas, fragmentos de código y pensamientos estructurados. Todo impulsado por el poder de <strong>.NET</strong> y <strong>Clean Architecture</strong>.
+        </p>
+        
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="/notes" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm fw-medium transition-hover">
+                <i class="bi bi-pencil-square me-2"></i> Comenzar a escribir
+            </a>
+            <a href="https://github.com/leomarqz/FullStack" target="_blank" class="btn btn-outline-dark btn-lg px-4 rounded-pill fw-medium transition-hover">
+                <i class="bi bi-github me-2"></i> Ver código fuente
+            </a>
+        </div>
+    </div>
+</div>
 
-<p class="text-gray-500">
-    Welcome to your new app.
-</p>
+<div class="container px-4 py-5 mt-3" id="featured-3">
+    <div class="row g-4 py-4 row-cols-1 row-cols-lg-3 justify-content-center">
+        
+        <div class="col">
+            <div class="text-center p-4 bg-white rounded-4 shadow-sm border border-light-subtle h-100 transition-hover">
+                <div class="d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3 bg-light rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <h3 class="fs-4 text-dark fw-bold">Rápido y Fluido</h3>
+                <p class="text-secondary mb-0">Desarrollado con Blazor para ofrecerte una experiencia de usuario interactiva y sin recargas innecesarias en el navegador.</p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="text-center p-4 bg-white rounded-4 shadow-sm border border-light-subtle h-100 transition-hover">
+                <div class="d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3 bg-light rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="bi bi-layers-fill"></i>
+                </div>
+                <h3 class="fs-4 text-dark fw-bold">Arquitectura Limpia</h3>
+                <p class="text-secondary mb-0">Código estructurado y escalable, separando el dominio de la infraestructura para un mantenimiento óptimo y profesional.</p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="text-center p-4 bg-white rounded-4 shadow-sm border border-light-subtle h-100 transition-hover">
+                <div class="d-inline-flex align-items-center justify-content-center text-primary fs-2 mb-3 bg-light rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h3 class="fs-4 text-dark fw-bold">Seguro y Organizado</h3>
+                <p class="text-secondary mb-0">Clasifica tus notas entre públicas o privadas. Mantén el control total sobre la visibilidad de tu información y tus apuntes.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
