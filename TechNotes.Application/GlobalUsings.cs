@@ -2,7 +2,7 @@
 /*
 * @author leomarqz 2026
 *
-* DRY (Don't Repeat Yourself) | Gestión de Dependencias Transversales
+* DRY (Don't Repeat Yourself) | Gestión de Dependencias Transversales 
 * El GlobalUsings nos permite centralizar el llamado a los namespaces comunes en el proyecto.
 * Nos evita tener llamados redundantes y tenemos archivos cada vez mas limpios.
 */
