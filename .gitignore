@@ -1,0 +1,48 @@
+# ==========================================
+# Compilación de .NET (Aplica para todas las capas)
+# ==========================================
+[Bb]in/
+[Oo]bj/
+# Ignorar archivos de publicación
+[Pp]ublish/
+[Oo]ut/
+# Logs
+*.log
+
+# ==========================================
+# Archivos de Visual Studio, Rider y VS Code
+# ==========================================
+.vs/
+.idea/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# ==========================================
+# Secretos y Entornos Locales
+# ==========================================
+# Archivos de variables de entorno (útil si usas Docker)
+.env
+.env.local
+.env.development
+# Configuraciones de usuario de ASP.NET Core
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# ==========================================
+# Bases de datos locales
+# ==========================================
+*.mdf
+*.ldf
+*.ndf
+*.sqlite
+*.db
+
+# ==========================================
+# Sistema Operativo
+# ==========================================
+.DS_Store
+Thumbs.db

@@ -1,0 +1,247 @@
+﻿@page "/note-editor"
+@page "/note-editor/{NoteId:int}"
+@using TechNotes.Application.Notes.DeleteNote
+@using TechNotes.Application.Notes.GetNoteById
+@using TechNotes.Application.Notes.UpdateNote
+@using TechNotes.Domain.Abstractions
+
+@* Nos permite un renderizado suave con el uso de await y Task *@
+@attribute [StreamRendering]
+
+@inject ISender Sender;
+@inject NavigationManager NavManager;
+
+<PageTitle>@(isEditMode ? "Editar Nota" : "Nueva Nota")</PageTitle>
+
+<div class="d-flex flex-column border-bottom pb-3 mb-4 gap-2 mt-4">
+
+    <div class="d-flex align-items-center gap-3">
+        <a href="/notes"
+               class="btn btn-light text-secondary rounded-circle p-2 shadow-sm d-flex align-items-center justify-content-center"
+               style="width: 40px; height: 40px;" title="Volver a Mis Notas">
+            <i class="bi bi-arrow-left fs-5"></i>
+        </a>
+
+        <h3 class="mb-0 fw-bold text-dark fs-4">
+            @(isEditMode ? "Editar Nota" : "Crear Nueva Nota")
+        </h3>
+    </div>
+
+    <div class="ms-5 ps-1">
+        @if (isEditMode && Note is not null)
+        {
+            <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                <i class="bi bi-pencil me-1"></i> Modificando: <span class="fw-medium text-dark">@Note.Title</span>
+            </p>
+        }
+        else
+        {
+            <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                Dale un título y comienza a escribir tus ideas.
+            </p>
+        }
+    </div>
+
+</div>
+
+@if (Note is not null)
+{
+    <section class="row justify-content-left mb-5 mt-4">
+        <div class="col-12 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <EditForm Model="Note" OnSubmit="HandleSubmitAsync" FormName="NoteEditorForm">
+
+                        <div class="form-floating mb-4">
+                            <InputText @bind-Value="Note.Title" id="noteTitle" placeholder="Título de la nota"
+                                       class="form-control fw-bold fs-5 shadow-none border-secondary-subtle" />
+                            <label for="noteTitle" class="text-muted">Título de la nota</label>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <InputTextArea @bind-Value="Note.Content" id="noteContent" placeholder="Escribe el contenido..."
+                                           class="form-control shadow-none border-secondary-subtle" style="height: 200px" />
+                            <label for="noteContent" class="text-muted">Escribe tu contenido aquí...</label>
+                        </div>
+
+                        <div class="row g-3 bg-light rounded-3 p-3 mb-4 border border-light-subtle mx-0">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label text-secondary small fw-bold mb-1">FECHA DE PUBLICACIÓN</label>
+                                <InputDate @bind-Value="Note.PublishedAt"
+                                           class="form-control shadow-none border-secondary-subtle" />
+                            </div>
+
+                            <div class="col-12 col-md-6 d-flex align-items-center mt-3 mt-md-auto pt-1">
+                                <div class="form-check form-switch fs-5 mb-0">
+                                    <InputCheckbox @bind-Value="Note.IsPublished" id="notePublished"
+                                                   class="form-check-input cursor-pointer" />
+                                    <label class="form-check-label ms-2 mt-1 fs-6 text-dark cursor-pointer"
+                                           for="notePublished">Publicar nota</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid d-md-flex justify-content-md-end pt-2 mt-3">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-md-5 shadow-sm fw-medium">
+                                <i class="bi bi-floppy me-2"></i> @( isEditMode ? "Guardar Cambios" : "Crear Nota")
+                            </button>
+                        </div>
+
+                    </EditForm>
+
+                    @if (isEditMode)
+                    {
+                        <div class="d-flex justify-content-center justify-content-md-start mt-4 mt-md-n5 position-relative"
+                             style="z-index: 10;">
+                            <form @onsubmit="DeleteNoteAsync" @formname="DeleteNoteForm" method="post">
+                                <button type="submit"
+                                        class="btn btn-outline-danger border-0 fw-medium px-2 py-1 rounded-3 transition-all">
+                                    <i class="bi bi-trash3 me-1"></i> Eliminar nota
+                                </button>
+                                <AntiforgeryToken />
+                            </form>
+                        </div>
+                    }
+
+                    <div class="mt-2 text-center">
+                        <span class="text-danger fw-bold">@errorMessage</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+@code {
+
+    private string? errorMessage = string.Empty;
+    private bool isEditMode => NoteId != null;
+
+    [SupplyParameterFromForm]
+    private NoteModel? Note { get; set; }
+
+    [Parameter]
+    public int? NoteId { get; set; }
+
+    private async Task HandleSubmitAsync()
+    {
+
+        if (isEditMode)
+        {
+
+            var command = Note.Adapt<UpdateNoteCommand>();
+            var result = await Sender.Send(command);
+
+            if (result.IsSucessful)
+            {
+
+                Note = result.Value.Adapt<NoteModel>();
+                Console.WriteLine("Nota actualizada exitosamente!");
+                NavManager.NavigateTo("/notes");
+
+            }
+            else
+            {
+
+                SetErrorMessage(result.ErrorMessage);
+                Console.WriteLine("Error al actualizar la nota!");
+            }
+
+        }
+        else
+        {
+
+            var command = Note.Adapt<CreateNoteCommand>();
+
+            var result = await Sender.Send(command);
+
+            if (result.IsSucessful)
+            {
+
+                Note = result.Adapt<NoteModel>();
+
+                Console.WriteLine("Nota creada exitosamente!");
+
+                NavManager.NavigateTo("/notes");
+
+            }
+            else
+            {
+
+                SetErrorMessage(result.ErrorMessage);
+                Console.WriteLine("Error al crear la nota!");
+
+            }
+
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (NoteId is not null)
+        {
+
+            Result<NoteResponse?>? result = await Sender.Send(new GetNoteByIdQuery
+            {
+                Id = (int)NoteId
+            }
+            );
+
+            if (result.IsSucessful)
+            {
+
+                Note ??= result.Value.Adapt<NoteModel>();
+                Note.Id = (int)NoteId;
+
+            }
+            else
+            {
+
+                SetErrorMessage(result.ErrorMessage);
+
+            }
+
+        }
+        else
+        {
+            Note ??= new() { Title = string.Empty };
+        }
+    }
+
+    private async Task DeleteNoteAsync()
+    {
+
+        if (NoteId is null)
+        {
+            return;
+        }
+
+        var command = new DeleteNoteCommand { Id = (int)NoteId };
+
+        var result = await Sender.Send(command);
+
+        if (result.IsSucessful)
+        {
+
+            Console.WriteLine("Nota eliminada exitosamente!");
+            NavManager.NavigateTo("/notes");
+
+        }
+        else
+        {
+
+            Console.WriteLine("Error al eliminar la nota!");
+
+        }
+
+    }
+
+    private void SetErrorMessage(string? error)
+    {
+        errorMessage = error ?? string.Empty;
+    }
+}

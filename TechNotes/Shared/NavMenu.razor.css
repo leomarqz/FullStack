@@ -1,0 +1,80 @@
+/* 1. Botón hamburguesa (Modificado para que las rayas sean oscuras sobre fondo blanco) */
+.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0.375rem;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem;
+}
+
+.navbar-toggler:checked {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* 2. Encabezado del logo */
+.top-row {
+    height: 4rem;
+    background-color: transparent; /* Quitamos el fondo negro */
+    border-bottom: 1px solid #dee2e6; /* Línea separadora suave */
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+}
+
+/* 3. Ajustes de los enlaces */
+.nav-item {
+    font-size: 0.95rem;
+    padding-bottom: 0.5rem;
+}
+
+.nav-item:first-of-type {
+    padding-top: 1rem;
+}
+
+/* Estado Inactivo (Gris) */
+.nav-item ::deep .nav-link {
+    color: #6c757d; 
+    background: none;
+    border: none;
+    border-radius: 8px; /* Bordes redondeados modernos */
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0 0.5rem;
+    transition: all 0.2s ease;
+}
+
+/* Efecto al pasar el mouse */
+.nav-item ::deep .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+/* Estado Activo (Fondo celeste, texto azul) */
+.nav-item ::deep a.active {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* 4. Lógica responsiva (Sin cambios) */
+.nav-scrollable { display: none; }
+.navbar-toggler:checked ~ .nav-scrollable { display: block; }
+
+@media (min-width: 641px) {
+    .navbar-toggler { display: none; }
+    .nav-scrollable {
+        display: block;
+        height: calc(100vh - 4rem);
+        overflow-y: auto;
+    }
+}

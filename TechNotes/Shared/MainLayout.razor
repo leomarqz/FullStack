@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar shadow-sm">
+        <NavMenu />
+    </div>
+
+    <main class="d-flex flex-column h-100">
+        
+        <div class="top-row px-4 px-md-5 shadow-sm bg-white d-flex align-items-center justify-content-end border-bottom">
+            <a href="/login" class="text-secondary text-decoration-none fw-medium transition-colors hover-primary d-flex align-items-center">
+                <i class="bi bi-box-arrow-in-right me-2 fs-5"></i>
+                Iniciar sesión
+            </a>
+        </div>
+
+        <article class="content flex-grow-1 p-4 p-md-5 overflow-auto">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" class="alert alert-danger shadow-lg border-0 rounded-top-4 mb-0 pb-3 pt-3">
+    <div class="d-flex align-items-center justify-content-between container-fluid">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+            <div>
+                <span class="fw-bold d-block">Ha ocurrido un error inesperado.</span>
+                <a href="" class="reload text-danger text-decoration-underline small">Recargar la aplicación</a>
+            </div>
+        </div>
+        <a class="dismiss text-danger fs-5 text-decoration-none" title="Cerrar"><i class="bi bi-x-lg"></i></a>
+    </div>
+</div>
