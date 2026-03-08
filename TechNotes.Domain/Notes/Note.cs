@@ -11,4 +11,6 @@ public class Note : Entity
     
     public DateTime? PublishedAt { get; set; }
     public bool IsPublished { get; set; } = false;
+
+    public string? UserId { get; set; }
 }
