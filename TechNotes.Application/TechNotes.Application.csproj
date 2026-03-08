@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\" />
     <Folder Include="Abstractions\RequestHandling\" />
+    <Folder Include="Authentication\" />
     <Folder Include="Notes\DeleteNote\" />
     <Folder Include="Notes\GetNotes\" />
     <Folder Include="Notes\UpdateNote\" />
