@@ -16,10 +16,10 @@ public class AuthenticationService : IAuthenticationService
         _userManager = userManager;
     }
 
-    public async Task<bool> LoginUserAsync(string email, string password)
+    public async Task<bool> LoginUserAsync(string username, string password)
     {
         var result = await _signInManager.PasswordSignInAsync(
-            userName: email, 
+            userName: username, 
             password: password, 
             isPersistent: false, 
             lockoutOnFailure: false
