@@ -1,0 +1,101 @@
+﻿@page "/register"
+@using TechNotes.Application.Users.RegisterUser
+@inject ISender Sender;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Registro de Usuario</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white text-center py-4 border-0">
+                    <i class="bi bi-person-plus-fill text-primary display-4"></i>
+                    <h3 class="fw-bold mt-2">Crea tu cuenta</h3>
+                    <p class="text-muted small px-4">Únete a TechNotes y comienza a organizar tus ideas de forma profesional.</p>
+                </div>
+                
+                <div class="card-body p-4 pt-0">
+                    <EditForm Model="UserModel" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
+                        <DataAnnotationsValidator />
+                        
+                        @* User Name Input *@
+                        <div class="form-floating mb-3">
+                            <InputText id="userName" @bind-Value="UserModel.UserName" class="form-control bg-light border-0" placeholder="johndoe" />
+                            <label for="userName"><i class="bi bi-person me-2"></i>Nombre de usuario</label>
+                            <ValidationMessage For="() => UserModel.UserName" class="text-danger small mt-1" />
+                        </div>
+
+                        @* Email Input *@
+                        <div class="form-floating mb-3">
+                            <InputText id="email" @bind-Value="UserModel.Email" type="email" class="form-control bg-light border-0" placeholder="name@example.com" />
+                            <label for="email"><i class="bi bi-envelope me-2"></i>Correo electrónico</label>
+                            <ValidationMessage For="() => UserModel.Email" class="text-danger small mt-1" />
+                        </div>
+
+                        @* Password Input *@
+                        <div class="form-floating mb-3">
+                            <InputText id="password" @bind-Value="UserModel.Password" type="password" class="form-control bg-light border-0" placeholder="Password" />
+                            <label for="password"><i class="bi bi-lock me-2"></i>Contraseña</label>
+                            <ValidationMessage For="() => UserModel.Password" class="text-danger small mt-1" />
+                        </div>
+
+                        @* Confirm Password - Crucial for UX *@
+                        <div class="form-floating mb-4">
+                            <InputText id="confirmPassword" @bind-Value="UserModel.ConfirmPassword" type="password" class="form-control bg-light border-0" placeholder="Confirm Password" />
+                            <label for="confirmPassword"><i class="bi bi-shield-check me-2"></i>Confirmar contraseña</label>
+                            <ValidationMessage For="() => UserModel.ConfirmPassword" class="text-danger small mt-1" />
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100 py-3 shadow-sm fw-bold">
+                            Registrar Usuario
+                        </button>
+                    </EditForm>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger d-flex align-items-center mt-4 border-0 shadow-sm" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div class="small">
+                                @errorMessage
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <p class="mb-0 small text-muted">
+                        ¿Ya tienes cuenta? <a href="/login" class="text-primary text-decoration-none fw-bold">Inicia sesión</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    private RegisterUserModel UserModel { get; set; } = new();
+    private string errorMessage = string.Empty;
+
+    async Task HandleSubmit()
+    {
+        var command = new RegisterUserCommand
+        {
+            UserName = UserModel.UserName,
+            UserEmail = UserModel.Email,
+            Password = UserModel.Password
+        };
+        var result = await Sender.Send(command);
+
+        if (result.IsSuccessful)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            errorMessage = result.ErrorMessage ?? "Ha ocurrido un error en el registro.";
+        }
+    }
+}

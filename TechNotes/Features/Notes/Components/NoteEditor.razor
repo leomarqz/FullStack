@@ -136,7 +136,7 @@
             var command = Note.Adapt<UpdateNoteCommand>();
             var result = await Sender.Send(command);
 
-            if (result.IsSucessful)
+            if (result.IsSuccessful)
             {
 
                 Note = result.Value.Adapt<NoteModel>();
@@ -159,7 +159,7 @@
 
             var result = await Sender.Send(command);
 
-            if (result.IsSucessful)
+            if (result.IsSuccessful)
             {
 
                 Note = result.Adapt<NoteModel>();
@@ -191,7 +191,7 @@
             }
             );
 
-            if (result.IsSucessful)
+            if (result.IsSuccessful)
             {
 
                 Note ??= result.Value.Adapt<NoteModel>();
@@ -224,7 +224,7 @@
 
         var result = await Sender.Send(command);
 
-        if (result.IsSucessful)
+        if (result.IsSuccessful)
         {
 
             Console.WriteLine("Nota eliminada exitosamente!");
