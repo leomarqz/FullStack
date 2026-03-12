@@ -9,9 +9,10 @@
 
 <PageTitle>Mis Notas</PageTitle>
 
-<div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center border-bottom pb-3 mb-4 gap-3 mt-4">
+<div
+    class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center border-bottom pb-3 mb-4 gap-3 mt-4">
     <h3 class="mb-0 fw-bold text-dark fs-4">Mis Notas</h3>
-    
+
     <div class="d-grid d-sm-block">
         <a href="/note-editor" class="btn btn-primary shadow-sm rounded-pill py-2 px-sm-4">
             <i class="bi bi-plus-lg me-2"></i>Nueva Nota
@@ -20,8 +21,29 @@
 
 </div>
 
+@if (_isLoading)
+{
 
-@if (notes.Count == 0)
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @for (int i = 0; i < 3; i++)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border rounded-4 placeholder-glow">
+                    <div class="card-body p-4">
+                        <h5 class="placeholder col-8 mb-3"></h5>
+                        <p class="placeholder col-12"></p>
+                        <p class="placeholder col-10"></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 px-4 pb-4">
+                        <span class="placeholder col-4"></span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+else if (notes.Count == 0)
 {
     <div class="text-center py-5 px-4 rounded-4 mt-4" style="background-color: #f8f9fa; border: 2px dashed #dee2e6;">
         <i class="bi bi-journal-plus display-4 text-secondary mb-3 d-block"></i>
@@ -33,72 +55,87 @@
             <a href="/note-editor" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
                 <i class="bi bi-plus-lg me-2"></i>Crear primera nota
             </a>
-    </div>
-}
+        </div>
+    }
 else
     {
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    @foreach (var note in notes)
-    {
-        <div class="col">
-            <div class="card h-100 shadow-sm border rounded-4 transition-hover">
-                <div class="card-body p-4"> <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
-                        <h5 class="card-title fw-bold mb-0 text-dark text-truncate">@note.Title</h5>
-                        
-                        @if (note.IsPublished)
-                        {
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2 py-1 flex-shrink-0">
-                                <i class="bi bi-eye-fill me-1"></i> Pública
+            @foreach (var note in notes)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border rounded-4 transition-hover">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
+                                <h5 class="card-title fw-bold mb-0 text-dark text-truncate">@note.Title</h5>
+
+                                @if (note.IsPublished)
+                                {
+                                    <span
+                                        class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2 py-1 flex-shrink-0">
+                                        <i class="bi bi-eye-fill me-1"></i> Pública
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span
+                                        class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-2 py-1 flex-shrink-0">
+                                        <i class="bi bi-eye-slash-fill me-1"></i> Privada
+                                    </span>
+                                }
+                            </div>
+
+                            <p class="card-text text-secondary mb-0 text-truncate-4" style="font-size: 0.95rem;">
+                                @note.Content
+                            </p>
+                        </div>
+
+                        <div
+                            class="card-footer bg-transparent border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-end">
+                            <span class="text-muted" style="font-size: 0.85rem;">
+                                <i class="bi bi-calendar3 me-1"></i> @note.CreatedAt.ToString("MMM dd, yyyy")
                             </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-2 py-1 flex-shrink-0">
-                                <i class="bi bi-eye-slash-fill me-1"></i> Privada
-                            </span>
-                        }
+
+                            <AuthorizeView>
+                                <Authorized>
+
+                                    <a href="/note-editor/@note.Id"
+                                           class="btn btn-light btn-sm rounded-pill px-3 fw-medium border shadow-sm">
+                                        <i class="bi bi-pencil-square me-1"></i> Editar
+                                    </a>
+
+                                </Authorized>
+                            </AuthorizeView>
+
+                        </div>
                     </div>
-
-                    <p class="card-text text-secondary mb-0 text-truncate-4" style="font-size: 0.95rem;">
-                        @note.Content
-                    </p>
                 </div>
-                
-                <div class="card-footer bg-transparent border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-end">
-                    <span class="text-muted" style="font-size: 0.85rem;">
-                        <i class="bi bi-calendar3 me-1"></i> @note.CreatedAt.ToString("MMM dd, yyyy")
-                    </span>
-                    
-                    <AuthorizeView>
-                        <Authorized>
-
-                            <a href="/note-editor/@note.Id" class="btn btn-light btn-sm rounded-pill px-3 fw-medium border shadow-sm">
-                                <i class="bi bi-pencil-square me-1"></i> Editar
-                            </a>
-
-                        </Authorized>
-                    </AuthorizeView>
-
-                </div>
-            </div>
+            }
         </div>
-    }
-</div>
     }
 
 @code {
 
     private List<NoteResponse> notes = new List<NoteResponse>();
+    private bool _isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1000);
+        try{
 
-        var result = await Sender.Send(new GetNotesQuery());
+            await Task.Delay(1000);
 
-        if (result is not null)
-        {
-            notes = result.IsSuccessful ? result! : new List<NoteResponse>();
+            var result = await Sender.Send(new GetNotesQuery());
+
+            if (result is not null)
+            {
+                notes = result.IsSuccessful ? result! : new List<NoteResponse>();
+            }
+
+        }
+        finally{
+
+            _isLoading = false;
+            
         }
 
     }

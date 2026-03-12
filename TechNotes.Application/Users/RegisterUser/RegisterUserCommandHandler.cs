@@ -19,7 +19,7 @@ public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
 
         return result.Succeeded 
                 ? Result.Ok() 
-                : Result.Fail(string.Join(",", result.Errors));
+                : Result.Fail(string.Join(" | ", result.Errors));
     }
 
 }

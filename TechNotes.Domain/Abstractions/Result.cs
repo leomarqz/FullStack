@@ -3,13 +3,13 @@ namespace TechNotes.Domain.Abstractions;
 
 public class Result
 {
-    public bool IsSucessful { get; }
-    public bool HasFailed => !IsSucessful;
+    public bool IsSuccessful { get; }
+    public bool HasFailed => !IsSuccessful;
     public string? ErrorMessage { get; }
 
     public Result(bool isSuccessful, string? errorMessage = null)
     {
-        IsSucessful = isSuccessful;
+        IsSuccessful = isSuccessful;
         ErrorMessage = errorMessage;
     }
 
