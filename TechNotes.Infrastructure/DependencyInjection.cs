@@ -36,6 +36,9 @@ public static class DependencyInjection
 
     private static void AddAuthentication(IServiceCollection services)
     {
+        // Middleware que nos permite mostrar mensaje definido en Routes.razor en TechNotes (Blazor)
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
+
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
         services.AddCascadingAuthenticationState();
@@ -50,7 +53,6 @@ public static class DependencyInjection
             .AddSignInManager()
             .AddDefaultTokenProviders();
 
-        // Middleware que nos permite mostrar mensaje definido en Routes.razor en TechNotes (Blazor)
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
+        
     }
 }

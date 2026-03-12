@@ -41,6 +41,10 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        // No se habian agregado, aun asi la app funcionaba bien
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.UseStaticFiles();
         app.UseAntiforgery();
 
