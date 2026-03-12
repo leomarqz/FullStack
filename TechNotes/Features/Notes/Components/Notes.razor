@@ -1,4 +1,5 @@
 ﻿@page "/notes";
+@using Microsoft.AspNetCore.Components.Authorization
 
 @* Nos permite un renderizado suave con el uso de await y Task *@
 @attribute [StreamRendering]
@@ -68,9 +69,16 @@ else
                         <i class="bi bi-calendar3 me-1"></i> @note.CreatedAt.ToString("MMM dd, yyyy")
                     </span>
                     
-                    <a href="/note-editor/@note.Id" class="btn btn-light btn-sm rounded-pill px-3 fw-medium border shadow-sm">
-                        <i class="bi bi-pencil-square me-1"></i> Editar
-                    </a>
+                    <AuthorizeView>
+                        <Authorized>
+
+                            <a href="/note-editor/@note.Id" class="btn btn-light btn-sm rounded-pill px-3 fw-medium border shadow-sm">
+                                <i class="bi bi-pencil-square me-1"></i> Editar
+                            </a>
+
+                        </Authorized>
+                    </AuthorizeView>
+
                 </div>
             </div>
         </div>

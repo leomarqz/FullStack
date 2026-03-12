@@ -16,35 +16,35 @@
                 </div>
                 
                 <div class="card-body p-4 pt-0">
-                    <EditForm Model="UserModel" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
+                    <EditForm Model="RegisterUserModel" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
                         <DataAnnotationsValidator />
                         
                         @* User Name Input *@
                         <div class="form-floating mb-3">
-                            <InputText id="userName" @bind-Value="UserModel.UserName" class="form-control bg-light border-0" placeholder="johndoe" />
+                            <InputText id="userName" @bind-Value="RegisterUserModel.UserName" class="form-control bg-light border-0" placeholder="johndoe" />
                             <label for="userName"><i class="bi bi-person me-2"></i>Nombre de usuario</label>
-                            <ValidationMessage For="() => UserModel.UserName" class="text-danger small mt-1" />
+                            <ValidationMessage For="() => RegisterUserModel.UserName" class="text-danger small mt-1" />
                         </div>
 
                         @* Email Input *@
                         <div class="form-floating mb-3">
-                            <InputText id="email" @bind-Value="UserModel.Email" type="email" class="form-control bg-light border-0" placeholder="name@example.com" />
+                            <InputText id="email" @bind-Value="RegisterUserModel.Email" type="email" class="form-control bg-light border-0" placeholder="name@example.com" />
                             <label for="email"><i class="bi bi-envelope me-2"></i>Correo electrónico</label>
-                            <ValidationMessage For="() => UserModel.Email" class="text-danger small mt-1" />
+                            <ValidationMessage For="() => RegisterUserModel.Email" class="text-danger small mt-1" />
                         </div>
 
                         @* Password Input *@
                         <div class="form-floating mb-3">
-                            <InputText id="password" @bind-Value="UserModel.Password" type="password" class="form-control bg-light border-0" placeholder="Password" />
+                            <InputText id="password" @bind-Value="RegisterUserModel.Password" type="password" class="form-control bg-light border-0" placeholder="Password" />
                             <label for="password"><i class="bi bi-lock me-2"></i>Contraseña</label>
-                            <ValidationMessage For="() => UserModel.Password" class="text-danger small mt-1" />
+                            <ValidationMessage For="() => RegisterUserModel.Password" class="text-danger small mt-1" />
                         </div>
 
                         @* Confirm Password - Crucial for UX *@
                         <div class="form-floating mb-4">
-                            <InputText id="confirmPassword" @bind-Value="UserModel.ConfirmPassword" type="password" class="form-control bg-light border-0" placeholder="Confirm Password" />
+                            <InputText id="confirmPassword" @bind-Value="RegisterUserModel.ConfirmPassword" type="password" class="form-control bg-light border-0" placeholder="Confirm Password" />
                             <label for="confirmPassword"><i class="bi bi-shield-check me-2"></i>Confirmar contraseña</label>
-                            <ValidationMessage For="() => UserModel.ConfirmPassword" class="text-danger small mt-1" />
+                            <ValidationMessage For="() => RegisterUserModel.ConfirmPassword" class="text-danger small mt-1" />
                         </div>
 
                         <button type="submit" class="btn btn-dark w-100 py-3 shadow-sm fw-bold">
@@ -76,16 +76,16 @@
 @code {
 
     [SupplyParameterFromForm]
-    private RegisterUserModel UserModel { get; set; } = new();
+    private RegisterUserModel RegisterUserModel { get; set; } = new();
     private string errorMessage = string.Empty;
 
     async Task HandleSubmit()
     {
         var command = new RegisterUserCommand
         {
-            UserName = UserModel.UserName,
-            UserEmail = UserModel.Email,
-            Password = UserModel.Password
+            UserName = RegisterUserModel.UserName,
+            UserEmail = RegisterUserModel.Email,
+            Password = RegisterUserModel.Password
         };
         var result = await Sender.Send(command);
 

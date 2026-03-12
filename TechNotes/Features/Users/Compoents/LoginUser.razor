@@ -1,0 +1,88 @@
+﻿@page "/login"
+@using TechNotes.Application.Users.LoginUser
+@inject ISender Sender
+@inject NavigationManager NavManager
+
+<PageTitle>Iniciar Sesión</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white text-center py-4 border-0">
+                    <i class="bi bi-shield-lock text-primary display-4"></i>
+                    <h3 class="fw-bold mt-2">Bienvenido</h3>
+                    <p class="text-muted small">Ingresa tus credenciales para acceder a tus notas.</p>
+                </div>
+                
+                <div class="card-body p-4 pt-0">
+                    <EditForm Model="LoginUserModel" OnValidSubmit="HandleLogin" FormName="LoginForm">
+                        <DataAnnotationsValidator />
+                        
+                        @* Username Input *@
+                        <div class="form-floating mb-3">
+                            <InputText id="userName" @bind-Value="LoginUserModel.UserName" class="form-control bg-light border-0" placeholder="usuario" />
+                            <label for="userName"><i class="bi bi-person me-2"></i>Nombre de usuario</label>
+                            <ValidationMessage For="() => LoginUserModel.UserName" class="text-danger small mt-1" />
+                        </div>
+
+                        @* Password Input *@
+                        <div class="form-floating mb-4">
+                            <InputText id="password" @bind-Value="LoginUserModel.Password" type="password" class="form-control bg-light border-0" placeholder="Password" />
+                            <label for="password"><i class="bi bi-key me-2"></i>Contraseña</label>
+                            <ValidationMessage For="() => LoginUserModel.Password" class="text-danger small mt-1" />
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100 py-3 shadow-sm fw-bold">
+                            Iniciar Sesión
+                        </button>
+                    </EditForm>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger d-flex align-items-center mt-4 border-0 shadow-sm" role="alert">
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>
+                            <div class="small">@errorMessage</div>
+                        </div>
+                    }
+                </div>
+                
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <p class="mb-0 small text-muted">
+                        ¿No tienes cuenta? <a href="/register" class="text-primary text-decoration-none fw-bold">Regístrate aquí</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginUserModel LoginUserModel { get; set; } = new();
+
+    private string errorMessage = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        errorMessage = string.Empty;
+
+        // Adaptamos el modelo al comando de Login (puedes usar Mapster si prefieres)
+        var command = new LoginUserCommand 
+        { 
+            UserName = LoginUserModel.UserName, 
+            Password = LoginUserModel.Password 
+        };
+
+        var result = await Sender.Send(command);
+
+        if (result.IsSuccessful) 
+        {
+            NavManager.NavigateTo("/notes");
+        }
+        else
+        {
+            errorMessage = result.ErrorMessage ?? "Credenciales inválidas o error de servidor.";
+        }
+    }
+}
