@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TechNotes.Application.Authentication;
 using TechNotes.Domain.Notes;
 using TechNotes.Infrastructure.Authentication;
+using TechNotes.Infrastructure.Middlewares;
 using TechNotes.Infrastructure.Repositories;
 
 namespace TechNotes.Infrastructure;
@@ -47,5 +49,8 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
+
+        // Middleware que nos permite mostrar mensaje definido en Routes.razor en TechNotes (Blazor)
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
     }
 }

@@ -11,7 +11,17 @@
 @* Custom *@
 @using Mapster
 @using MediatR
+
 @using TechNotes.Domain.Notes;
+@using TechNotes.Domain.Abstractions
+
 @using TechNotes.Application.Notes
 @using TechNotes.Application.Notes.GetNotes
 @using TechNotes.Application.Notes.CreateNote
+@using TechNotes.Application.Notes.DeleteNote
+@using TechNotes.Application.Notes.GetNoteById
+@using TechNotes.Application.Notes.UpdateNote
+
+@* para componentes de autorizacion *@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization

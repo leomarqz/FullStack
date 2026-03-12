@@ -1,5 +1,4 @@
 ﻿@page "/notes";
-@using Microsoft.AspNetCore.Components.Authorization
 
 @* Nos permite un renderizado suave con el uso de await y Task *@
 @attribute [StreamRendering]
@@ -134,8 +133,9 @@ else
         }
         finally{
 
+            // El encargado de desactivar el componente esqueleto 
             _isLoading = false;
-            
+
         }
 
     }

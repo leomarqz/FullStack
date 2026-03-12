@@ -1,12 +1,11 @@
 ﻿@page "/note-editor"
 @page "/note-editor/{NoteId:int}"
-@using TechNotes.Application.Notes.DeleteNote
-@using TechNotes.Application.Notes.GetNoteById
-@using TechNotes.Application.Notes.UpdateNote
-@using TechNotes.Domain.Abstractions
 
 @* Nos permite un renderizado suave con el uso de await y Task *@
 @attribute [StreamRendering]
+
+@* Nos permite mostrar el componente si el usuario ha iniciado sesion *@
+@attribute [Authorize]
 
 @inject ISender Sender;
 @inject NavigationManager NavManager;
