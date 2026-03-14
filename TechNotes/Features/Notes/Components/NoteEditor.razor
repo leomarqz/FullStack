@@ -31,9 +31,19 @@
     <div class="ms-5 ps-1">
         @if (isEditMode && Note is not null)
         {
-            <p class="text-muted mb-0" style="font-size: 0.9rem;">
-                <i class="bi bi-pencil me-1"></i> Modificando: <span class="fw-medium text-dark">@Note.Title</span>
-            </p>
+            <div class="d-flex flex-column gap-1">
+                <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                    <i class="bi bi-pencil me-1"></i> Modificando: <span class="fw-medium text-dark">@Note.Title</span>
+                </p>
+
+                @* Agregando el nombre del autor *@
+                <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                    <i class="bi bi-person me-1"></i> Autor:
+                    <span class="fw-medium text-dark">
+                        @Note.UserName
+                    </span>
+                </p>
+            </div>
         }
         else
         {
@@ -161,7 +171,7 @@
 
             var command = Note.Adapt<CreateNoteCommand>();
 
-            command.UserId = UserManager.GetUserId( HttpContext.User );
+            command.UserId = UserManager.GetUserId(HttpContext.User);
 
             var result = await Sender.Send(command);
 
