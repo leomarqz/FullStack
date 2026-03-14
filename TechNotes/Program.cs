@@ -7,7 +7,6 @@ namespace TechNotes;
 /**
  * @author: Leomarqz
  * @project: TechNotes
- * @description: Database context for Entity Framework Core.
  * @date: 2026
  */
 

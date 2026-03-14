@@ -7,4 +7,6 @@ public class CreateNoteCommand : ICommand<NoteResponse>
     public string? Content { get; set; }
     public DateTime PublishedAt { get; set; } = DateTime.Now;
     public bool IsPublished { get; set; } = false;
+
+    public string? UserId { get; set; } = null;
 }

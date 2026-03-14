@@ -83,29 +83,33 @@ else
                                 }
                             </div>
 
-                            <p class="card-text text-secondary mb-0 text-truncate-4" style="font-size: 0.95rem;">
+                            <p class="card-text text-secondary mb-0 text-truncate" style="font-size: 0.95rem;">
                                 @note.Content
                             </p>
                         </div>
 
-                        <div
-                            class="card-footer bg-transparent border-top-0 px-4 pb-4 pt-0 d-flex justify-content-between align-items-end">
-                            <span class="text-muted" style="font-size: 0.85rem;">
-                                <i class="bi bi-calendar3 me-1"></i> @note.CreatedAt.ToString("MMM dd, yyyy")
-                            </span>
+                        <div class="card-footer bg-transparent border-top-0 px-4 pb-4 pt-0">
+                           
+                            <div class="mb-2 text-muted" style="font-size: 0.85rem;">
+                                <i class="bi bi-person me-1"></i>
+                                @note.UserName
+                            </div>
 
-                            <AuthorizeView>
-                                <Authorized>
-
-                                    <a href="/note-editor/@note.Id"
-                                           class="btn btn-light btn-sm rounded-pill px-3 fw-medium border shadow-sm">
-                                        <i class="bi bi-pencil-square me-1"></i> Editar
-                                    </a>
-
-                                </Authorized>
-                            </AuthorizeView>
-
+                            <div class="d-flex justify-content-between align-items-end">
+                                <span class="text-muted" style="font-size: 0.85rem;">
+                                    <i class="bi bi-calendar3 me-1"></i> @note.CreatedAt.ToString("MMM dd, yyyy")
+                                </span>
+                                <AuthorizeView>
+                                    <Authorized>
+                                        <a href="/note-editor/@note.Id"
+                                               class="btn btn-outline-dark btn-sm rounded-pill px-3 fw-medium border shadow-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Editar
+                                        </a>
+                                    </Authorized>
+                                </AuthorizeView>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             }
@@ -119,7 +123,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try{
+        try
+        {
 
             await Task.Delay(1000);
 
@@ -131,9 +136,10 @@ else
             }
 
         }
-        finally{
+        finally
+        {
 
-            // El encargado de desactivar el componente esqueleto 
+            // El encargado de desactivar el componente esqueleto
             _isLoading = false;
 
         }

@@ -1,6 +1,7 @@
 ﻿@page "/note-editor"
 @page "/note-editor/{NoteId:int}"
 
+
 @* Nos permite un renderizado suave con el uso de await y Task *@
 @attribute [StreamRendering]
 
@@ -9,6 +10,7 @@
 
 @inject ISender Sender;
 @inject NavigationManager NavManager;
+@inject UserManager<User> UserManager;
 
 <PageTitle>@(isEditMode ? "Editar Nota" : "Nueva Nota")</PageTitle>
 
@@ -16,7 +18,7 @@
 
     <div class="d-flex align-items-center gap-3">
         <a href="/notes"
-               class="btn btn-light text-secondary rounded-circle p-2 shadow-sm d-flex align-items-center justify-content-center"
+               class="btn btn-outline-dark text-secondary rounded-circle p-2 shadow-sm d-flex align-items-center justify-content-center"
                style="width: 40px; height: 40px;" title="Volver a Mis Notas">
             <i class="bi bi-arrow-left fs-5"></i>
         </a>
@@ -126,6 +128,9 @@
     [Parameter]
     public int? NoteId { get; set; }
 
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
     private async Task HandleSubmitAsync()
     {
 
@@ -155,6 +160,8 @@
         {
 
             var command = Note.Adapt<CreateNoteCommand>();
+
+            command.UserId = UserManager.GetUserId( HttpContext.User );
 
             var result = await Sender.Send(command);
 

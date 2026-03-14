@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using TechNotes.Application.Authentication;
 using TechNotes.Domain.Notes;
+using TechNotes.Domain.User;
 using TechNotes.Infrastructure.Authentication;
 using TechNotes.Infrastructure.Middlewares;
 using TechNotes.Infrastructure.Repositories;
@@ -28,6 +29,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<INoteRepository, NoteRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         
         AddAuthentication(services);
         
