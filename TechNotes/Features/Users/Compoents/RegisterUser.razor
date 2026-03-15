@@ -52,6 +52,27 @@
                         </button>
                     </EditForm>
 
+                    <div class="mt-4">
+                        <div class="position-relative mb-4">
+                            <hr class="text-muted">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted"
+                                  style="font-size: 0.8rem;">
+                                O CONTINÚA CON
+                            </span>
+                        </div>
+
+                        <form action="account/external-login" method="post">
+                            <AntiforgeryToken />
+                            <input type="hidden" name="provider" value="Google" />
+                            <button type="submit"
+                                    class="btn btn-outline-dark w-100 rounded-pill py-2 shadow-sm d-flex align-items-center justify-content-center gap-2 transition-hover">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                                     alt="Google" style="width: 18px;">
+                                <span class="fw-medium">Iniciar sesión con Google</span>
+                            </button>
+                        </form>
+                    </div>
+
                     @if (!string.IsNullOrEmpty(errorMessage))
                     {
                         <div class="alert alert-danger d-flex align-items-center mt-4 border-0 shadow-sm" role="alert">

@@ -14,21 +14,23 @@
                     <h3 class="fw-bold mt-2">Bienvenido</h3>
                     <p class="text-muted small">Ingresa tus credenciales para acceder a tus notas.</p>
                 </div>
-                
+
                 <div class="card-body p-4 pt-0">
                     <EditForm Model="LoginUserModel" OnValidSubmit="HandleLogin" FormName="LoginForm">
                         <DataAnnotationsValidator />
-                        
+
                         @* Username Input *@
                         <div class="form-floating mb-3">
-                            <InputText id="userName" @bind-Value="LoginUserModel.UserName" class="form-control bg-light border-0" placeholder="usuario" />
+                            <InputText id="userName" @bind-Value="LoginUserModel.UserName"
+                                       class="form-control bg-light border-0" placeholder="usuario" />
                             <label for="userName"><i class="bi bi-person me-2"></i>Nombre de usuario</label>
                             <ValidationMessage For="() => LoginUserModel.UserName" class="text-danger small mt-1" />
                         </div>
 
                         @* Password Input *@
                         <div class="form-floating mb-4">
-                            <InputText id="password" @bind-Value="LoginUserModel.Password" type="password" class="form-control bg-light border-0" placeholder="Password" />
+                            <InputText id="password" @bind-Value="LoginUserModel.Password" type="password"
+                                       class="form-control bg-light border-0" placeholder="Password" />
                             <label for="password"><i class="bi bi-key me-2"></i>Contraseña</label>
                             <ValidationMessage For="() => LoginUserModel.Password" class="text-danger small mt-1" />
                         </div>
@@ -38,6 +40,27 @@
                         </button>
                     </EditForm>
 
+                    <div class="mt-4">
+                        <div class="position-relative mb-4">
+                            <hr class="text-muted">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted"
+                                  style="font-size: 0.8rem;">
+                                O CONTINÚA CON
+                            </span>
+                        </div>
+
+                        <form action="account/external-login" method="post">
+                            <AntiforgeryToken />
+                            <input type="hidden" name="provider" value="Google" />
+                            <button type="submit"
+                                    class="btn btn-outline-dark w-100 rounded-pill py-2 shadow-sm d-flex align-items-center justify-content-center gap-2 transition-hover">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                                     alt="Google" style="width: 18px;">
+                                <span class="fw-medium">Iniciar sesión con Google</span>
+                            </button>
+                        </form>
+                    </div>
+
                     @if (!string.IsNullOrEmpty(errorMessage))
                     {
                         <div class="alert alert-danger d-flex align-items-center mt-4 border-0 shadow-sm" role="alert">
@@ -46,10 +69,11 @@
                         </div>
                     }
                 </div>
-                
+
                 <div class="card-footer bg-light border-0 py-3 text-center">
                     <p class="mb-0 small text-muted">
-                        ¿No tienes cuenta? <a href="/register" class="text-primary text-decoration-none fw-bold">Regístrate aquí</a>
+                        ¿No tienes cuenta? <a href="/register"
+                                              class="text-primary text-decoration-none fw-bold">Regístrate aquí</a>
                     </p>
                 </div>
             </div>
@@ -68,15 +92,15 @@
         errorMessage = string.Empty;
 
         // Adaptamos el modelo al comando de Login (puedes usar Mapster si prefieres)
-        var command = new LoginUserCommand 
-        { 
-            UserName = LoginUserModel.UserName, 
-            Password = LoginUserModel.Password 
+        var command = new LoginUserCommand
+        {
+            UserName = LoginUserModel.UserName,
+            Password = LoginUserModel.Password
         };
 
         var result = await Sender.Send(command);
 
-        if (result.IsSuccessful) 
+        if (result.IsSuccessful)
         {
             NavManager.NavigateTo("/notes");
         }

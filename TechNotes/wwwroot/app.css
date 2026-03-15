@@ -49,3 +49,14 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+
+/* Custom */
+.transition-hover {
+    transition: all 0.2s ease-in-out;
+}
+
+.transition-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}

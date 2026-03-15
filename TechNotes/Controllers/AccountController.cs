@@ -34,37 +34,51 @@ namespace TechNotes.Controllers
         public async Task<IActionResult> HandleExternalCallback()
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
             if(info == null)
-            {
-                return RedirectWithError("Error al obtener informacion de usuario de google!");
-            }
+                return RedirectWithError("Error al obtener información de Google.");
             
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
 
             if (result.Succeeded)
-            {
                 return Redirect("/notes");
-            }
 
+            // Si llegamos aquí, el usuario no está vinculado. Buscamos por Email.
             var email = info.Principal.FindFirstValue( ClaimTypes.Email );
 
             if( string.IsNullOrEmpty(email))
+                return RedirectWithError("No se pudo obtener el email de Google.");
+
+            // Verificamos si existe el usuario
+            var user = await _userManager.FindByEmailAsync(email); 
+            
+            if(user == null)
             {
-                return RedirectWithError("Error al intentar obtener el email del usuario!");
+                // Sino existe el usuario lo creamos
+                user = new User
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+                
+                var createResult = await _userManager.CreateAsync(user);
+
+                if (!createResult.Succeeded)
+                    return RedirectWithError("Error al crear la cuenta local.");
             }
 
-            var user = await _userManager.FindByEmailAsync(email) ?? new User
+            // Vinculamos la cuenta de Google con el usuario de nuestra BD
+            var addLoginResult = await _userManager.AddLoginAsync(user, info);
+
+            if( addLoginResult.Succeeded)
             {
-                UserName = email,
-                Email = email,
-                EmailConfirmed = true
-            };
+                await _signInManager.SignInAsync(user, isPersistent: false);
 
-            await _userManager.CreateAsync(user);
-            await _userManager.AddLoginAsync(user, info);
-            await _signInManager.SignInAsync(user, isPersistent: false);
+                return Redirect("/notes");
+            }
 
-            return Redirect("/notes");
+            return RedirectWithError("Error al vincular la cuenta de Google.");
 
         }
 
