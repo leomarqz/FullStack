@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Features\Users\" />
     <Folder Include="Features\Users\Compoents\" />
   </ItemGroup>

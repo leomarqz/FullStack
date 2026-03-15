@@ -105,6 +105,7 @@ public class Program
         builder.Services.AddAuthentication().AddGoogle((options) =>
         {
             // Credentials retrieved from secure configuration (appsettings.json or Secrets).
+            // Get your Google API client ID (Browser)
             options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
             options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
 
@@ -153,7 +154,7 @@ public class Program
 
         app.UseAntiforgery(); // Protects against Cross-Site Request Forgery (CSRF)
 
-        app.MapControllers(); // Map traditional MVC Controllers
+        app.MapControllers(); // Map traditional MVC Controllers (Custom)
 
         // Map the Blazor Root component and enable Interactive Server rendering.
         app.MapRazorComponents<App>()
