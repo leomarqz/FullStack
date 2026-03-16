@@ -1,0 +1,24 @@
+[33m8bdc61a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Se crearon roles con SQL y se realizaron asignaciones de roles a usuarios
+[33ma097f2f[m[33m ([m[1;31morigin/main[m[33m)[m Se agrego el boton de iniciar con google desde ambos formularios, login o registro, si el usuario existe pero usa por primera vez google, se enlazan cuentas, si el usuario no existe se crea en la base de datos y luego se enlaza con su cuenta de google
+[33mc62ea98[m Se modifico el puerto usado para iniciar el servidor y se creo el controlador para gestionar el registro e inicio de sesion con google en nuestra app
+[33ma599b09[m Configuracion de variables en appsettings.json para Auth con Google
+[33mf756fd1[m Se agregaron configuraciones en Program para trabajar con Google OAuth
+[33m9a8e7d8[m Se agrego el username del creador de una nota en la vista de NoteEditor en procesos de Edicion y Actualizacion de una nota
+[33md33f6fa[m Se creo el repositorio para IUserRepository, mostramos el username del autor de la nota y sino, el texto de Desconocido
+[33mf5d7458[m Se configuro la autenticacion y autorizacion en nuestra app
+[33m8ed1200[m Se modifico el Routes.razor para mostrar un mensaje de restringido y para anular el comportamiento por defecto al ingresar a un endpoint no autorizado, se creo un middleware llamado BlazorAuthorizationMiddlewareResultHandler.
+[33m0fb11ee[m Se agrego componente de esqueleton sobre Notes.razor y se guardan cambios realizados en los otros proyectos que habian sido olvidados
+[33md1c8623[m Se ha implementado el componente de logout, asi como el uso del componente AuthorizeView con Authorized y NotAuthorized
+[33ma651c22[m Se corrigio un error de gramatica en una propiedad de Result y se creo el formulario para el registro de usuarios, se ha testeado y funciona correctamente.
+[33m3cc0004[m Se creo el comando y el manejador para las funciones de login y registro de usuarios
+[33me9d893a[m Se realizaron los registros de los servicios y paquetes necesarios para el uso de Authentication con identity
+[33me82e58c[m Se realizo la implementacion del contrato IAuthorizationService
+[33m891e73a[m Se creo el contrato que contiene las funciones de autenticacion, login y register de usuarios: IAuthenticationService
+[33m5894fd0[m Se genero archivo de migracion con las tablas propias de identity y se modifico el applicationDbContext, ademas se agrego el UserId en Note
+[33ma657f74[m Referencia a archivo de GlobalUsings en Applications
+[33m6532218[m Se inicio la configuracion para la gestion de usuarios con identity
+[33m7ed78b2[m Se agregaron dos paquetes que nos ayudaran con el componente de identidad de la aplicacion
+[33m1055928[m Se personalizo el Home.razor y se agrego enlace hacia el repositorio de codigo en GitHub
+[33m197519d[m Initialize README with project details
+[33m176b86f[m se eliminaron archivos innecesarios
+[33me5173ff[m first commit

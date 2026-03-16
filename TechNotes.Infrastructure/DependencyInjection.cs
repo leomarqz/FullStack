@@ -50,7 +50,10 @@ public static class DependencyInjection
             options.DefaultScheme = IdentityConstants.ApplicationScheme;
             options.DefaultChallengeScheme = IdentityConstants.ExternalScheme;
         }).AddIdentityCookies();
-        services.AddIdentityCore<User>()
+
+        services
+            .AddIdentityCore<User>()
+            .AddRoles<IdentityRole>() //Habilita roles
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
