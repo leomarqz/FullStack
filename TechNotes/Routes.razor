@@ -11,15 +11,31 @@
                     <div class="row justify-content-center">
                         <div class="col-md-6 text-center py-5 shadow-sm bg-white rounded-4 border">
                             <i class="bi bi-shield-lock-fill display-1 text-danger mb-4"></i>
-                            <h2 class="fw-bold">Acceso Restringido</h2>
+                            <h2 class="fw-bold">Acceso Denegado</h2>
                             <p class="text-muted mb-4">
-                                Lo sentimos, necesitas iniciar sesión o tener los permisos adecuados para ver esta
-                                sección.
+                                <AuthorizeView>
+
+                                    <Authorized Context="authContext">
+                                        Lo sentimos, no cuentas con los roles o permisos necesarios!
+                                    </Authorized>
+                                    
+                                    <NotAuthorized Context="authContext">
+                                        Lo sentimos, es necesario que inicies sesion o registrate!
+                                    </NotAuthorized>
+
+                                </AuthorizeView>
+                                
                             </p>
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                                <a href="/login" class="btn btn-primary btn-lg px-4 gap-3 rounded-pill shadow-sm">
-                                    <i class="bi bi-box-arrow-in-right me-2"></i>Ir al Login
-                                </a>
+
+                                <AuthorizeView>
+                                    <NotAuthorized Context="authContext">
+                                        <a href="/login" class="btn btn-primary btn-lg px-4 gap-3 rounded-pill shadow-sm">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Ir al Login
+                                        </a>
+                                    </NotAuthorized>
+                                </AuthorizeView>
+
                                 <a href="/" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
                                     Volver al Inicio
                                 </a>

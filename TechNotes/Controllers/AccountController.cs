@@ -54,7 +54,7 @@ namespace TechNotes.Controllers
             
             if(user == null)
             {
-                // Sino existe el usuario lo creamos
+                // Sino existe el usuario lo creamos 
                 user = new User
                 {
                     UserName = email,

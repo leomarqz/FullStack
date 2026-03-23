@@ -6,7 +6,7 @@
 @attribute [StreamRendering]
 
 @* Nos permite mostrar el componente si el usuario ha iniciado sesion *@
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Admin, Writer")]
 
 @inject ISender Sender;
 @inject NavigationManager NavManager;

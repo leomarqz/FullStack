@@ -32,3 +32,25 @@ VALUES ('e30674cb-0f16-4f45-9753-7d20b063d2cd', 'e4baf39c-6356-43b4-a7af-ad4bf7a
 -- Usuario Reader se le asigno el rol de Reader (Usuario Pepe)
 INSERT INTO AspNetUserRoles (UserId, RoleId)
 VALUES ('41567275-352e-477a-bdc9-55e8a5d200ed', '240a778b-a089-455f-94af-9f9df4d13f8c');
+
+-- 🔍 Consulta para obtener la lista de usuarios junto con los roles que tienen asignados
+-- Esta consulta realiza un JOIN entre las tablas de usuarios, roles y asignaciones (AspNetUserRoles)
+SELECT [UserId],         -- ID del usuario
+       [UserName],       -- Nombre de usuario
+       [RoleId],         -- ID del rol asignado
+       [Name] AS RoleName -- Nombre legible del rol
+FROM [TechNotesDb].[dbo].[AspNetUserRoles] ur
+JOIN [TechNotesDb].[dbo].[AspNetUsers] u ON ur.UserId = u.Id
+JOIN [TechNotesDb].[dbo].[AspNetRoles] r ON ur.RoleId = r.Id
+
+-- ✅ Asignar manualmente un usuario al rol "Admin"
+-- Esto permitirá que el usuario vea ciertas funcionalidades como el botón para editar notas.
+-- IMPORTANTE: reemplaza [USER-ID] por el valor real del Id del usuario que deseas modificar.
+UPDATE AspNetUserRoles 
+SET RoleId = '2b53dcde-4ce5-43a5-9dca-5afe7b55d9bd' 
+WHERE UserId = '[USER-ID]'
+
+-- 📋 Consulta para ver todos los usuarios registrados en la base de datos
+-- Muestra información general de cada usuario (correo, fecha de registro, etc.)
+SELECT * FROM AspNetUsers;
+
