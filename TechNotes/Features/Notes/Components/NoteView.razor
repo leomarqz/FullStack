@@ -1,0 +1,112 @@
+﻿@page "/note-view/{NoteId:int}"
+@using MediatR
+@using TechNotes.Application.Notes
+@using TechNotes.Application.Notes.GetNoteById
+
+@inject ISender Sender
+@inject NavigationManager NavManager
+
+<PageTitle>TechNotes - @(note?.Title ?? "Ver Nota")</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <nav class="mb-4 d-flex align-items-center gap-3">
+                <a href="/notes" class="btn btn-outline-dark text-secondary rounded-circle p-2 shadow-sm d-flex align-items-center justify-content-center"
+                   style="width: 40px; height: 40px;" title="Volver">
+                    <i class="bi bi-arrow-left fs-5"></i>
+                </a>
+                <h3 class="mb-0 fw-bold text-dark fs-4">Detalles de la Nota</h3>
+            </nav>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger rounded-4 border-0 shadow-sm p-4">
+                    <h2 class="h5 fw-bold text-danger">Error</h2>
+                    <p class="mb-0">@errorMessage</p>
+                </div>
+            }
+            else if (note is not null)
+            {
+                <article class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+                    <div class="card-header @(note?.IsPublished ?? false ? "bg-success" : "bg-secondary") bg-opacity-10 border-0 py-3 px-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold @(note?.IsPublished ?? false ? "text-success" : "text-secondary") small">
+                                <i class="bi @(note?.IsPublished ?? false ? "bi-eye-fill" : "bi-eye-slash-fill") me-2"></i>
+                                @(note?.IsPublished ?? false ? "PÚBLICA" : "PRIVADA")
+                            </span>
+                            <span class="text-muted small">ID: #@note?.Id</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+                        <header class="mb-4">
+                            <h1 class="display-6 fw-bold text-dark mb-3">@note?.Title</h1>
+                            
+                            <div class="d-flex flex-wrap gap-4 text-muted small">
+                                <div>
+                                    <i class="bi bi-person me-1 text-primary"></i> 
+                                    <strong>Autor:</strong> @(note?.UserName ?? "Anónimo")
+                                </div>
+                                <div>
+                                    <i class="bi bi-calendar-event me-1 text-primary"></i> 
+                                    <strong>Publicado:</strong> @note?.PublishedAt.ToString("d")
+                                </div>
+                                <div>
+                                    <i class="bi bi-clock-history me-1 text-primary"></i> 
+                                    <strong>Creado:</strong> @note?.CreatedAt.ToString("g")
+                                </div>
+                            </div>
+                        </header>
+
+                        <hr class="opacity-10 my-4">
+
+                        <div class="note-content fs-5 text-dark lh-base" style="white-space: pre-wrap;">
+                            @note?.Content
+                        </div>
+
+                        <AuthorizeView Roles="Admin, Writer">
+                            <div class="mt-5 pt-4 border-top d-flex gap-2">
+                                <a href="/note-editor/@note?.Id" class="btn btn-outline-dark rounded-pill px-4 shadow-sm fw-medium">
+                                    <i class="bi bi-pencil-square me-2"></i>Editar Nota
+                                </a>
+                            </div>
+                        </AuthorizeView>
+
+                    </div>
+                </article>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="text-muted mt-3">Consultando servidor XNERD...</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int NoteId { get; set; }
+
+    private NoteResponse? note;
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var result = await Sender.Send(new GetNoteByIdQuery { Id = NoteId });
+
+        if (result.IsSuccessful && result.Value is not null)
+        {
+            // Mapeamos el resultado al NoteResponse usando Mapster como en tu editor
+            note = result.Value.Adapt<NoteResponse>();
+        }
+        else
+        {
+            errorMessage = result.ErrorMessage ?? "Lo sentimos, no pudimos cargar la nota.";
+        }
+    }
+
+}

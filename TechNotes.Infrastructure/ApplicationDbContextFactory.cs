@@ -26,8 +26,9 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        var connStr = "Server=localhost;Database=TechNotesDb;User ID=SA;Password=MyStrongPass123;TrustServerCertificate=true;MultipleActiveResultSets=true";
-        
+        // var connStr = "Server=localhost;Database=TechNotesDb;User ID=SA;Password=MyStrongPass123;TrustServerCertificate=true;MultipleActiveResultSets=true";
+        var connStr = "Server=XNERD;Database=TechNotesDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+
         builder.UseSqlServer( connStr, (sqlBuilder) =>
         {
             sqlBuilder.MigrationsAssembly( typeof(ApplicationDbContext).Assembly.FullName );

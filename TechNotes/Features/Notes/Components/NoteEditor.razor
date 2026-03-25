@@ -72,7 +72,7 @@
 
                         <div class="form-floating mb-4">
                             <InputTextArea @bind-Value="Note.Content" id="noteContent" placeholder="Escribe el contenido..."
-                                           class="form-control shadow-none border-secondary-subtle" style="height: 200px" />
+                                           class="form-control shadow-none border-secondary-subtle" style="height: 150px" />
                             <label for="noteContent" class="text-muted">Escribe tu contenido aquí...</label>
                         </div>
 
@@ -93,11 +93,12 @@
                             </div>
                         </div>
 
-                        <div class="d-grid d-md-flex justify-content-md-end pt-2 mt-3">
-                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-md-5 shadow-sm fw-medium">
-                                <i class="bi bi-floppy me-2"></i> @( isEditMode ? "Guardar Cambios" : "Crear Nota")
-                            </button>
-                        </div>
+                            <div class="d-grid d-md-flex justify-content-md-end pt-2 mt-3">
+                                @* Se cambia btn-primary btn-lg por btn-outline-dark y se normaliza el padding para consistencia *@
+                                <button type="submit" class="btn btn-outline-dark rounded-pill px-4 fw-medium border shadow-sm transition-hover">
+                                    <i class="bi bi-floppy me-2"></i> @( isEditMode ? "Guardar Cambios" : "Crear Nota")
+                                </button>
+                            </div>
 
                     </EditForm>
 
