@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 
 using TechNotes.Application.Authentication;
+using TechNotes.Infrastructure.Users;
 
 namespace TechNotes.Infrastructure.Authentication;
 

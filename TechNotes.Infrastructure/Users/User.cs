@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using TechNotes.Domain.Notes;
 using TechNotes.Domain.User;
 
-namespace TechNotes.Infrastructure.Authentication;
+namespace TechNotes.Infrastructure.Users;
 
 public class User : IdentityUser, IUser
 {

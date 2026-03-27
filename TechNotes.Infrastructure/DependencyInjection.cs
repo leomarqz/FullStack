@@ -13,6 +13,7 @@ using TechNotes.Domain.User;
 using TechNotes.Infrastructure.Authentication;
 using TechNotes.Infrastructure.Middlewares;
 using TechNotes.Infrastructure.Repositories;
+using TechNotes.Infrastructure.Users;
 
 namespace TechNotes.Infrastructure;
 
