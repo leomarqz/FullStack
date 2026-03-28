@@ -3,6 +3,8 @@
 @using TechNotes.Application.Notes
 @using TechNotes.Application.Notes.GetNoteById
 
+@attribute [Authorize(Roles = "Admin, Writer, Reader")]
+
 @inject ISender Sender
 @inject NavigationManager NavManager
 

@@ -8,5 +8,5 @@ public class CreateNoteCommand : ICommand<NoteResponse>
     public DateTime PublishedAt { get; set; } = DateTime.Now;
     public bool IsPublished { get; set; } = false;
 
-    public string? UserId { get; set; } = null;
+    // public string? UserId { get; set; } = null; // Se elimino, la asignacion de ara de otra forma
 }

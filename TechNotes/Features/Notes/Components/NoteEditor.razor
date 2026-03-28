@@ -173,7 +173,7 @@
 
             var command = Note.Adapt<CreateNoteCommand>();
 
-            command.UserId = UserManager.GetUserId(HttpContext.User);
+            // command.UserId = UserManager.GetUserId(HttpContext.User);
 
             var result = await Sender.Send(command);
 
