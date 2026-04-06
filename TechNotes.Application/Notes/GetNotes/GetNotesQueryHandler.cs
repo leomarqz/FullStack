@@ -38,6 +38,7 @@ public class GetNotesQueryHandler : IQueryHandler<GetNotesQuery, List<NoteRespon
             else
             {
                 noteResponse.UserName = "Desconocido";
+                noteResponse.CanEdit = await _userService.CurrentUserCanEditNoteAsync( note.Id );
             }
 
             response.Add( noteResponse );
