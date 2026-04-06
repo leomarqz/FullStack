@@ -103,7 +103,7 @@
 
                     </EditForm>
 
-                    @if (isEditMode)
+                    @if ( isEditMode && currentUserCanDelete )
                     {
                         <div class="d-flex justify-content-center justify-content-md-start mt-4 mt-md-n5 position-relative"
                              style="z-index: 10;">
@@ -133,6 +133,7 @@
 
     private string? errorMessage = string.Empty;
     private bool isEditMode => NoteId != null;
+    private bool currentUserCanDelete = false;
 
     [SupplyParameterFromForm]
     private NoteModel? Note { get; set; }
@@ -211,6 +212,13 @@
 
             if (result.IsSuccessful)
             {
+
+                currentUserCanDelete = result.Value.Adapt<NoteResponse>().CanEdit;
+
+                if( !currentUserCanDelete ){
+                    NavManager.NavigateTo("/notes");
+                    return;
+                }
 
                 Note ??= result.Value.Adapt<NoteModel>();
                 Note.Id = (int)NoteId;

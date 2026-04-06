@@ -1,17 +1,21 @@
 
+using TechNotes.Application.Users;
 using TechNotes.Domain.User;
 
 namespace TechNotes.Application.Notes.GetNoteById;
 
-public class GetNoteQueryHandler : IQueryHandler<GetNoteByIdQuery, NoteResponse?>
+public class GetNoteByIdQueryHandler : IQueryHandler<GetNoteByIdQuery, NoteResponse?>
 {
     private readonly INoteRepository _noteRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
 
-    public GetNoteQueryHandler(INoteRepository noteRepository, IUserRepository userRepository)
+
+    public GetNoteByIdQueryHandler(INoteRepository noteRepository, IUserRepository userRepository, IUserService userService)
     {
         _noteRepository = noteRepository;
         _userRepository = userRepository;
+        _userService = userService;
     }
 
     public async Task<Result<NoteResponse?>> Handle(GetNoteByIdQuery request, CancellationToken cancellationToken)
@@ -27,10 +31,14 @@ public class GetNoteQueryHandler : IQueryHandler<GetNoteByIdQuery, NoteResponse?
         {
            var noteAuthor = await _userRepository.GetUserByIdAsync( note.UserId! );
            noteResponse.UserName = noteAuthor?.UserName ?? "Desconocido";
+           noteResponse.UserId = note.UserId;
+           noteResponse.CanEdit = await _userService.CurrentUserCanEditNoteAsync( note.Id );
         }
         else
         {
             noteResponse.UserName = "Desconocido";
+            noteResponse.UserId = note.UserId;
+            noteResponse.CanEdit = await _userService.CurrentUserCanEditNoteAsync( note.Id );
         }
 
         return noteResponse;

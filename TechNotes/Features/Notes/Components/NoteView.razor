@@ -68,13 +68,21 @@
                             @note?.Content
                         </div>
 
-                        <AuthorizeView Roles="Admin, Writer">
+                        @if( note?.CanEdit == true ){
                             <div class="mt-5 pt-4 border-top d-flex gap-2">
                                 <a href="/note-editor/@note?.Id" class="btn btn-outline-dark rounded-pill px-4 shadow-sm fw-medium">
                                     <i class="bi bi-pencil-square me-2"></i>Editar Nota
                                 </a>
                             </div>
-                        </AuthorizeView>
+                        }
+
+                        @* <AuthorizeView Roles="Admin, Writer">
+                            <div class="mt-5 pt-4 border-top d-flex gap-2">
+                                <a href="/note-editor/@note?.Id" class="btn btn-outline-dark rounded-pill px-4 shadow-sm fw-medium">
+                                    <i class="bi bi-pencil-square me-2"></i>Editar Nota
+                                </a>
+                            </div>
+                        </AuthorizeView> *@
 
                     </div>
                 </article>

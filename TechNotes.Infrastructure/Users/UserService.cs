@@ -9,15 +9,15 @@ namespace TechNotes.Infrastructure.Users;
 
 public class UserService : IUserService
 {
-    private readonly UserManager<User> userManager;
-    private readonly IHttpContextAccessor httpContextAccessor; // 
-    private readonly INoteRepository noteRepository;
+    private readonly UserManager<User> _userManager;
+    private readonly IHttpContextAccessor _httpContextAccessor; // 
+    private readonly INoteRepository _noteRepository;
 
     public UserService(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, INoteRepository noteRepository)
     {
-        this.userManager = userManager;
-        this.httpContextAccessor = httpContextAccessor;
-        this.noteRepository = noteRepository;
+        _userManager = userManager;
+        _httpContextAccessor = httpContextAccessor;
+        _noteRepository = noteRepository;
     }
 
     public async Task<bool> CurrentUserCanCreateNoteAsync()
@@ -29,8 +29,8 @@ public class UserService : IUserService
             return false;
         }
 
-        var isAdmin = await this.userManager.IsInRoleAsync(user, "Admin");
-        var isWriter = await this.userManager.IsInRoleAsync(user, "Writer");
+        var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+        var isWriter = await _userManager.IsInRoleAsync(user, "Writer");
 
         return isAdmin || isWriter;
 
@@ -45,10 +45,10 @@ public class UserService : IUserService
             return false;
         }
 
-        var isAdmin = await this.userManager.IsInRoleAsync(user, "Admin");
-        var isWriter = await this.userManager.IsInRoleAsync(user, "Writer");
+        var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+        var isWriter = await _userManager.IsInRoleAsync(user, "Writer");
 
-        var note = await this.noteRepository.GetNoteAsync(noteId);
+        var note = await _noteRepository.GetNoteAsync(noteId);
 
         if( note is null )
         {
@@ -82,7 +82,7 @@ public class UserService : IUserService
         }
 
         // Validamos si el usuario posee el rol que se pase por parametro!
-        var isUserInRole = await this.userManager.IsInRoleAsync(user, role);
+        var isUserInRole = await _userManager.IsInRoleAsync(user, role);
 
         return isUserInRole;
 
@@ -90,13 +90,13 @@ public class UserService : IUserService
 
     private async Task<User?> GetCurrentUserAsync()
     {
-        var httpContext = this.httpContextAccessor.HttpContext;
+        var httpContext = _httpContextAccessor.HttpContext;
 
         if( httpContext is null || httpContext.User is null)
         {
             return null;
         }
 
-        return await userManager.GetUserAsync( httpContext.User );
+        return await _userManager.GetUserAsync( httpContext.User );
     }
 }
