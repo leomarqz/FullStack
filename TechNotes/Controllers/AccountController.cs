@@ -62,10 +62,16 @@ namespace TechNotes.Controllers
                     EmailConfirmed = true
                 };
                 
+                // Creamos el nuevo usuario
                 var createResult = await _userManager.CreateAsync(user);
+
 
                 if (!createResult.Succeeded)
                     return RedirectWithError("Error al crear la cuenta local.");
+
+                // Damos un rol inicial al nuevo usuario
+                //lueog, lo vinculamos con su cuenta de google
+                await _userManager.AddToRoleAsync(user, "Reader");
             }
 
             // Vinculamos la cuenta de Google con el usuario de nuestra BD
